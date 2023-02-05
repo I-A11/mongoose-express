@@ -4,6 +4,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 
 const Product = require("./models/product");
+const { log } = require("console");
 
 mongoose
   .connect("mongodb://127.0.0.1/farmStand", {
@@ -21,8 +22,9 @@ mongoose
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.get("/dog", (req, res) => {
-  res.send("WOOF!");
+app.get("/products", async (req, res) => {
+  const products = await Product.find({});
+  res.render("products/index", { products });
 });
 
 app.listen(3000, () => {
